@@ -94,7 +94,7 @@ const App = () => {
       </section>
       <p>&copy;<a href="https://piemadd.com/" target="_blank">Piero Maddaleni</a> {new Date().getFullYear()}</p>
       <p>Event Data from Ticketmaster and ESPN</p>
-      <p>v0.1.1 Beta</p>
+      <p>v0.1.3 Beta</p>
     </>
   );
 };

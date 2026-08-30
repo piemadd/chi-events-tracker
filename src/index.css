@@ -103,7 +103,7 @@ div.baseballscore {
 
 div.score > div {
   background-color: #222;
-  flex: 1;
+  flex: 0 1 auto;
 }
 
 div.teamScores {
