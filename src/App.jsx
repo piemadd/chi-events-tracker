@@ -81,7 +81,7 @@ const App = () => {
       <section id="events">
         {eventsArr.filter((event) => {
           if (filters.onlyChicagoSports && !event.isChicagoEvent) return false;
-          if (filters.hideCompleteEvents && event.score?.latestWallClock && Date.now() > new Date(event.score?.latestWallClock).valueOf()) return false;
+          if (filters.hideCompleteEvents && event.score?.gameComplete) return false;
 
             return true;
         }).map((event, i) => {
@@ -94,7 +94,7 @@ const App = () => {
       </section>
       <p>&copy;<a href="https://piemadd.com/" target="_blank">Piero Maddaleni</a> {new Date().getFullYear()}</p>
       <p>Event Data from Ticketmaster and ESPN</p>
-      <p>v0.1.0 Beta</p>
+      <p>v0.1.1 Beta</p>
     </>
   );
 };
