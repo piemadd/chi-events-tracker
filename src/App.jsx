@@ -150,7 +150,7 @@ const App = () => {
         {new Date().getFullYear()}
       </p>
       <p>Event Data from Ticketmaster and ESPN</p>
-      <p>v0.1.3 Beta</p>
+      <p>v0.1.4 Beta</p>
     </>
   );
 };
