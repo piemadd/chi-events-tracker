@@ -62,11 +62,17 @@ const App = () => {
   return (
     <>
       <h1>Chicago Events Tracker</h1>
+      <p>
+        &copy;
+        <a href="https://piemadd.com/" target="_blank">
+          Piero Maddaleni
+        </a>{" "}
+        {new Date().getFullYear()} | v0.1.5 Beta
+      </p>
+      <p>Event Data from Ticketmaster and ESPN</p>
       <section id="filters">
         <details>
-          <summary style={{
-            fontSize: 24
-          }}>Filters</summary>
+          <summary style={{ fontSize: 24 }}>Filters</summary>
           <div className="filter">
             <input
               type="checkbox"
@@ -142,15 +148,6 @@ const App = () => {
             );
           })}
       </section>
-      <p>
-        &copy;
-        <a href="https://piemadd.com/" target="_blank">
-          Piero Maddaleni
-        </a>{" "}
-        {new Date().getFullYear()}
-      </p>
-      <p>Event Data from Ticketmaster and ESPN</p>
-      <p>v0.1.4 Beta</p>
     </>
   );
 };
