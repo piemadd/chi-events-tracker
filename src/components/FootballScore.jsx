@@ -10,8 +10,8 @@ const TeamScore = ({ team, scoreObject, reverse = false }) => {
   );
 };
 
-const FootballScore = ({eventObject}) => {
-    if (!eventObject.score) return null;
+const FootballScore = ({ eventObject }) => {
+  if (!eventObject.score) return null;
 
   let homeTeam = null;
   let awayTeam = null;
@@ -36,21 +36,18 @@ const FootballScore = ({eventObject}) => {
         ) : null}
         {eventObject.score.gameStarted && !eventObject.score.gameComplete ? (
           <>
-            <Tags tagsArray={[["Not Implemented", "#007b04"]]} />
-            {/*}
             <Tags
               tagsArray={[
-                [`${eventObject.score?.topOfInning ? "Top" : "Bottom"} of ${eventObject.score?.inningText}`, "#007b04"]
+                [`Q${eventObject.score?.quarter}`, "#007b04"],
+                [eventObject.score?.timeLeft, "#ff6200"]
               ]}
             />
             <Tags
               tagsArray={[
-                [`${eventObject.score?.thisInning?.balls} B`, "#6ba900"],
-                [`${eventObject.score?.thisInning?.strikes} S`, "#00a5c2"],
-                [`${eventObject.score?.thisInning?.outs} O`, "#ff6200"]
+                [`${eventObject.score?.ball} @ ${eventObject.score?.positionSide} ${eventObject.score?.yardNumber}`, "#6ba900"],
+                [eventObject.score?.downAnd, "#00a5c2"],
               ]}
             />
-            {*/}
           </>
         ) : null}
         {eventObject.score.gameStarted && eventObject.score.gameComplete ? (

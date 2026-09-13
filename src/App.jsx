@@ -6,7 +6,13 @@ const App = () => {
   const [filters, setFilters] = useState(
     localStorage.getItem("chi-events-tracker-v1-settings")
       ? JSON.parse(localStorage.getItem("chi-events-tracker-v1-settings"))
-      : { onlyChicagoSports: true, hideCompleteEvents: false }
+      : {
+          onlySportsChicago: true,
+          onlyChicagoSportsTeams: false,
+          onlySports: false,
+          hideCompleteEvents: false,
+          onlyTodayEvents: true
+        }
   );
   const [loadingMessage, setLoadingMessage] = useState("Loading events list...");
 
@@ -57,42 +63,92 @@ const App = () => {
     <>
       <h1>Chicago Events Tracker</h1>
       <section id="filters">
-        <div className="filter">
-          <input
-            type="checkbox"
-            id="filter_onlyChicagoSports"
-            name="onlyChicagoSports"
-            checked={filters.onlyChicagoSports}
-            onChange={(e) => updateFilters({ onlyChicagoSports: e.target.checked })}
-          />
-          <label htmlFor="onlyChicagoSports">Only Chicago Sports?</label>
-        </div>
-        <div className="filter">
-          <input
-            type="checkbox"
-            id="filter_hideCompleteEvents"
-            name="hideCompleteEventshideCompleteEvents"
-            checked={filters.hideCompleteEvents}
-            onChange={(e) => updateFilters({ hideCompleteEvents: e.target.checked })}
-          />
-          <label htmlFor="hideCompleteEvents">Hide Complete Events?</label>
-        </div>
+        <details>
+          <summary style={{
+            fontSize: 24
+          }}>Filters</summary>
+          <div className="filter">
+            <input
+              type="checkbox"
+              id="filter_onlySportsChicago"
+              name="onlySportsChicago"
+              checked={filters.onlySportsChicago}
+              onChange={(e) => updateFilters({ onlySportsChicago: e.target.checked })}
+            />
+            <label htmlFor="onlySportsChicago">Only Sports in Chicago?</label>
+          </div>
+          <div className="filter">
+            <input
+              type="checkbox"
+              id="filter_onlyChicagoSportsTeams"
+              name="onlyChicagoSportsTeams"
+              checked={filters.onlyChicagoSportsTeams}
+              onChange={(e) => updateFilters({ onlyChicagoSportsTeams: e.target.checked })}
+            />
+            <label htmlFor="onlyChicagoSportsTeams">Only Chicago Sports Teams?</label>
+          </div>
+          <div className="filter">
+            <input
+              type="checkbox"
+              id="filter_onlySports"
+              name="onlySports"
+              checked={filters.onlySports}
+              onChange={(e) => updateFilters({ onlySports: e.target.checked })}
+            />
+            <label htmlFor="onlySports">Only Sports Events?</label>
+          </div>
+          <div className="filter">
+            <input
+              type="checkbox"
+              id="filter_hideCompleteEvents"
+              name="hideCompleteEvents"
+              checked={filters.hideCompleteEvents}
+              onChange={(e) => updateFilters({ hideCompleteEvents: e.target.checked })}
+            />
+            <label htmlFor="hideCompleteEvents">Hide Complete Events?</label>
+          </div>
+          <div className="filter">
+            <input
+              type="checkbox"
+              id="filter_onlyTodayEvents"
+              name="onlyTodayEvents"
+              checked={filters.onlyTodayEvents}
+              onChange={(e) => updateFilters({ onlyTodayEvents: e.target.checked })}
+            />
+            <label htmlFor="onlyTodayEvents">Only Today's Events?</label>
+          </div>
+        </details>
       </section>
       <section id="events">
-        {eventsArr.filter((event) => {
-          if (filters.onlyChicagoSports && !event.isChicagoEvent) return false;
-          if (filters.hideCompleteEvents && event.score?.gameComplete) return false;
+        {eventsArr
+          .filter((event) => {
+            if (filters.onlySportsChicago && !event.isChicagoEvent) return false;
+            if (filters.onlyChicagoSportsTeams && !event.isChicagoTeam) return false;
+            if (filters.onlySports && event.category != "Sports") return false;
+            if (filters.hideCompleteEvents && event.score?.gameComplete) return false;
+
+            const todayDateLocale = new Date().toLocaleDateString();
+            const eventDateLocale = new Date(event.start_date).toLocaleDateString();
+
+            if (filters.onlyTodayEvents && todayDateLocale != eventDateLocale) return false;
 
             return true;
-        }).map((event, i) => {
-          return (
-            <>
-              <Event eventData={event} eventIndex={i} />
-            </>
-          );
-        })}
+          })
+          .map((event, i) => {
+            return (
+              <>
+                <Event eventData={event} eventIndex={i} />
+              </>
+            );
+          })}
       </section>
-      <p>&copy;<a href="https://piemadd.com/" target="_blank">Piero Maddaleni</a> {new Date().getFullYear()}</p>
+      <p>
+        &copy;
+        <a href="https://piemadd.com/" target="_blank">
+          Piero Maddaleni
+        </a>{" "}
+        {new Date().getFullYear()}
+      </p>
       <p>Event Data from Ticketmaster and ESPN</p>
       <p>v0.1.3 Beta</p>
     </>
